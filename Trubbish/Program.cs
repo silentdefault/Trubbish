@@ -32,13 +32,19 @@ namespace Trubbish
                 {
                     if (line.ToLower().StartsWith("full="))
                     {
-                        icon.icons[1] = Icon.ExtractAssociatedIcon(line.Substring(5));
+                        if (File.Exists(line.Substring(5)))
+                        {
+                            icon.icons[1] = Icon.ExtractAssociatedIcon(line.Substring(5));
+                        }
                     }
                     if (line.ToLower().StartsWith("empty="))
                     {
-                        icon.icons[0] = Icon.ExtractAssociatedIcon(line.Substring(6));
+                        if (File.Exists(line.Substring(6)))
+                        {
+                            icon.icons[0] = Icon.ExtractAssociatedIcon(line.Substring(6));
+                        }
                     }
-                    if (line.Contains("[NO-PIXEL]"))
+                    if (line =="[NO-PIXEL]")
                     {
                         pixel.Close();
                     }
