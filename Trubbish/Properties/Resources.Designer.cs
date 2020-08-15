@@ -83,9 +83,9 @@ namespace Trubbish.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap trubbish1 {
+        internal static System.Drawing.Bitmap trubbishgif {
             get {
-                object obj = ResourceManager.GetObject("trubbish1", resourceCulture);
+                object obj = ResourceManager.GetObject("trubbishgif", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
