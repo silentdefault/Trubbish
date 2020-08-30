@@ -19,6 +19,7 @@ namespace Trubbish
         {
             const string appName = "Trubbish";
             bool createdNew;
+            bool openPixel = true;
             mutex = new Mutex(true, appName, out createdNew);
             if (!createdNew)
             {
@@ -32,26 +33,46 @@ namespace Trubbish
                 {
                     if (line.ToLower().StartsWith("full="))
                     {
-                        if (File.Exists(line.Substring(5)))
-                        {
-                            icon.icons[1] = Icon.ExtractAssociatedIcon(line.Substring(5));
-                        }
+                        icon.icons[1] = getIcon(line, 5);
                     }
                     if (line.ToLower().StartsWith("empty="))
                     {
-                        if (File.Exists(line.Substring(6)))
-                        {
-                            icon.icons[0] = Icon.ExtractAssociatedIcon(line.Substring(6));
-                        }
+                        icon.icons[0] = getIcon(line, 6);
                     }
                     if (line =="[NO-PIXEL]")
                     {
-                        pixel.Close();
+                        openPixel = false;
                     }
                 }
                 icon.change();
             }
+            if (openPixel)
+            {
+                pixel.ShowDialog();
+            }
             Application.Run();
+        }
+        static Icon getIcon(string path, int subs)
+        {
+            if (File.Exists(path.Substring(subs)))
+            {
+                if (path.EndsWith(".ico"))
+                {
+                    return Icon.ExtractAssociatedIcon(path.Substring(subs));
+                }
+                else if (path.EndsWith(".png"))
+                {
+                    return Icon.FromHandle(new Bitmap(path.Substring(subs)).GetHicon());
+                }
+            }
+            if (subs == 5)
+            {
+                return Resources.trubbish_shiny;
+            }
+            else
+            {
+                return Resources.trubbish;
+            }
         }
     }
     class Notify
@@ -147,8 +168,8 @@ namespace Trubbish
             this.DragEnter += dragEnter;
             tip.ShowAlways = true;
             tip.SetToolTip(this, "Bring folders/files");
-            this.Show();
         }
+
         private void shown(object sender, EventArgs e)
         {
             this.Width = 1;
